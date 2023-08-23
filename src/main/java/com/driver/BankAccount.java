@@ -6,6 +6,9 @@ public class BankAccount {
     private double balance;
     private double minBalance;
 
+    public BankAccount() {
+    }
+
     public BankAccount(String name, double balance, double minBalance) {
         this.name = name;
         this.balance = balance;
@@ -40,7 +43,7 @@ public class BankAccount {
         //Each digit of an account number can lie between 0 and 9 (both inclusive)
         //Generate account number having given number of 'digits' such that the sum of digits is equal to 'sum'
         //If it is not possible, throw "Account Number can not be generated" exception
-        if (digits*9 < sum) throw new Exception("Account number cannot be generated");
+        if (digits*9 < sum) throw new Exception("Account Number cannot be generated");
 
         StringBuilder sb = new StringBuilder();
         while (digits != 0) {
