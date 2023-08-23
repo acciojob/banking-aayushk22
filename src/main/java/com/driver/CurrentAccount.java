@@ -42,11 +42,11 @@ public class CurrentAccount extends BankAccount{
                     if (j >= charArray.length) throw new Exception("Valid License can not be generated");
 
                 }
-                i++;
-                char temp = charArray[i];
-                charArray[j] = charArray[i];
-                charArray[j] = temp;
 
+                char temp = charArray[i+1];
+                charArray[i+1] = charArray[j];
+                charArray[j] = temp;
+                i++;
                 j = i+1;
             }
         }
