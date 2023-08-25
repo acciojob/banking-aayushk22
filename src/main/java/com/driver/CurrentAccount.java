@@ -73,16 +73,23 @@ public class CurrentAccount extends BankAccount{
         }
 
         StringBuilder ans = new StringBuilder();
-        Pair block = pq.remove();
-        ans.append(block.ch);
-        block.freq--;
+
 
         while (pq.size() > 0) {
-            Pair temp = pq.remove();
-            ans.append(temp.ch);
-            temp.freq--;
-            if(block.freq > 0) pq.add(block);
-            block = temp;
+            Pair block = pq.remove();
+            ans.append(block.ch);
+            block.freq--;
+            boolean flag = false;
+            if (!pq.isEmpty()) {
+                Pair temp = pq.remove();
+                ans.append(temp.ch);
+                temp.freq--;
+                flag = true;
+                if (block.freq > 0) pq.add(block);
+                if (temp.freq > 0) pq.add(temp);
+            }
+            if (flag) continue;
+            if (block.freq > 0) pq.add(block);
         }
 
 //        if (block.freq > 0) {
