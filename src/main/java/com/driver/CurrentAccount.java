@@ -58,9 +58,8 @@ public class CurrentAccount extends BankAccount{
         if (isValid(charArray)) return;
 
         int [] freqMap = new int[26];
-        for (int i = 0; i < charArray.length; i++) {
-            char ch = charArray[i];
-            freqMap[ch - 'a']++;
+        for (char ch: charArray) {
+            freqMap[ch - 'A']++;
         }
 
         PriorityQueue<Pair> pq = new PriorityQueue<>((a, b) -> {
@@ -69,7 +68,7 @@ public class CurrentAccount extends BankAccount{
 
         for (int i = 0; i < 26; i++) {
             if (freqMap[i] > 0) {
-                pq.add(new Pair((char)(i + 'a'), freqMap[i]));
+                pq.add(new Pair((char)(i + 'A'), freqMap[i]));
             }
         }
 
