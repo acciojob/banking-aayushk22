@@ -1,5 +1,7 @@
 package com.driver;
 
+import java.util.PriorityQueue;
+
 public class CurrentAccount extends BankAccount{
     String tradeLicenseId; //consists of Uppercase English characters only
 
@@ -27,33 +29,86 @@ public class CurrentAccount extends BankAccount{
         // If it is not possible, throw "Valid License can not be generated" Exception
 
         char [] charArray = this.tradeLicenseId.toCharArray();
-        int i = 0;
-        int j = i+1;
+//        int i = 0;
+//        int j = i+1;
+//
+//        while (i < charArray.length - 1 && j < charArray.length) {
+//            if (charArray[i] != charArray[j]) {
+//                i++;
+//                j++;
+//            }
+//
+//            else {
+//                while (charArray[i] == charArray[j]) {
+//                    j++;
+//                    if (j >= charArray.length) throw new Exception("Valid License can not be generated");
+//
+//                }
+//
+//                char temp = charArray[i+1];
+//                charArray[i+1] = charArray[j];
+//                charArray[j] = temp;
+//                i++;
+//                j = i+1;
+//            }
+//        }
+//
+//        String str = new String(charArray);
+//        this.tradeLicenseId = str;
+        if (isValid(charArray)) return;
 
-        while (i < charArray.length - 1 && j < charArray.length) {
-            if (charArray[i] != charArray[j]) {
-                i++;
-                j++;
-            }
+        int [] freqMap = new int[26];
+        for (int i = 0; i < charArray.length; i++) {
+            char ch = charArray[i];
+            freqMap[ch - 'a']++;
+        }
 
-            else {
-                while (charArray[i] == charArray[j]) {
-                    j++;
-                    if (j >= charArray.length) throw new Exception("Valid License can not be generated");
+        PriorityQueue<Pair> pq = new PriorityQueue<>((a, b) -> {
+            return b.freq - a.freq;
+        });
 
-                }
-
-                char temp = charArray[i+1];
-                charArray[i+1] = charArray[j];
-                charArray[j] = temp;
-                i++;
-                j = i+1;
+        for (int i = 0; i < 26; i++) {
+            if (freqMap[i] > 0) {
+                pq.add(new Pair((char)(i + 'a'), freqMap[i]));
             }
         }
 
-        String str = new String(charArray);
-        this.tradeLicenseId = str;
+        StringBuilder ans = new StringBuilder();
+        Pair block = pq.remove();
+        ans.append(block.ch);
+        block.freq--;
 
+        while (pq.size() > 0) {
+            Pair temp = pq.remove();
+            ans.append(temp.ch);
+            temp.freq--;
+            if(block.freq > 0) pq.add(block);
+            block = temp;
+        }
+
+        if (block.freq > 0) {
+            throw new Exception("Valid License can not be generated");
+        }
+
+        this.tradeLicenseId = ans.toString();
+
+    }
+
+    private boolean isValid (char [] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == arr[i-1]) return false;
+        }
+
+        return true;
+    }
+
+    static class Pair {
+        char ch;
+        int freq;
+        public Pair (char ch, int freq) {
+            this.ch = ch;
+            this.freq = freq;
+        }
     }
 
 
