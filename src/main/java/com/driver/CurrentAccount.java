@@ -86,14 +86,16 @@ public class CurrentAccount extends BankAccount{
             block = temp;
         }
 
-        if (block.freq > 0) {
-            throw new Exception("Valid License can not be generated");
+//        if (block.freq > 0) {
+//            throw new Exception("Valid License can not be generated");
+//        }
+        String id = ans.toString();
+        char[] newArr = id.toCharArray();
+        if (isValid(newArr)) {
+            this.tradeLicenseId = id;
         }
-//        String id = ans.toString();
-//        char[] newArr = id.toCharArray();
-//        if (isValid)
 
-        this.tradeLicenseId = ans.toString();
+        else throw new Exception("Valid License can not be generated");
 
     }
 
